@@ -12,11 +12,16 @@ module.exports = (app) => {
     );
 
 //handle googles initial callback with passport.
-    app.get('/auth/google/callback', passport.authenticate('google'));
+    app.get('/auth/google/callback',
+        passport.authenticate('google'),
+        (req, res) => {
+            res.redirect('/surveys');
+        }
+    );
 
     app.get('/api/logout', (req, res) => {
         req.logout();  //passport attaches these methods to the req object.
-        res.send(req.user);
+        res.redirect('/');
     });
 
     app.get('/api/current_user', (req, res) => {
